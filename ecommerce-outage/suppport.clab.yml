@@ -1,0 +1,45 @@
+name: ecommerce
+
+topology:
+  nodes:
+
+    client:
+      kind: linux
+      image: ghcr.io/hellt/network-multitool
+
+    nginx:
+      kind: linux
+      image: nginx:latest
+      binds:
+        - startup-config/nginx.conf:/etc/nginx/nginx.conf
+        - startup-config/start_nginx.sh:/start.sh
+      cmd: bash /start.sh
+
+    auth:
+      kind: linux
+      image: python:3.11-slim
+      binds:
+        - startup-config/auth_server.py:/app/auth_server.py
+        - startup-config/start_auth.sh:/start.sh
+      cmd: bash /start.sh
+
+    order:
+      kind: linux
+      image: python:3.11-slim
+      binds:
+        - startup-config/order_server.py:/app/order_server.py
+        - startup-config/start_order.sh:/start.sh
+      cmd: bash /start.sh
+
+    postgres:
+      kind: linux
+      image: postgres:15
+      env:
+        POSTGRES_DB: ecommerce
+        POSTGRES_USER: appuser
+        POSTGRES_PASSWORD: password123
+      binds:
+        - startup-config/init_db.sql:/docker-entrypoint-initdb.d/init.sql
+
+  links:
+    - endpoints: ["client:eth1", "nginx:eth1"]
