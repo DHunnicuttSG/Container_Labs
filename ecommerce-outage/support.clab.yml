@@ -52,8 +52,8 @@ topology:
 
     - endpoints:
         - db:eth1
-        - br-private:eth1
+        - br-private:eth3
 
     - endpoints:
         - router:eth2
-        - br-private:eth2
+        - br-private:eth4
