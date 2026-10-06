@@ -47,18 +47,10 @@ topology:
 
     links:
 
-    - endpoints:
-        - client:eth1
-        - nginx:eth1
+    - endpoints: ["client:eth1", "nginx:eth1"]
 
-    - endpoints:
-        - nginx:eth2
-        - auth:eth1
+    - endpoints: ["nginx:eth2", "auth:eth1"]
 
-    - endpoints:
-        - nginx:eth3
-        - order:eth1
+    - endpoints: ["nginx:eth3", "order:eth1"]
 
-    - endpoints:
-        - auth:eth2
-        - postgres:eth1
+    - endpoints: ["auth:eth2", "postgres:eth1"]
