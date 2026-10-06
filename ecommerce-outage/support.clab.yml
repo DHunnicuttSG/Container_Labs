@@ -1,22 +1,53 @@
-router:
-  kind: linux
-  image: alpine:latest
-  binds:
-    - startup-router.sh:/startup.sh
-  cmd: sh /startup.sh
+name: ecommerce
 
-web:
-  kind: linux
-  image: nginx:latest
-  binds:
-    - startup-web.sh:/startup.sh
-  cmd: sh /startup.sh
-  ports:
-    - 8080:80
+topology:
+  nodes:
 
-db:
-  kind: linux
-  image: postgres:15
-  binds:
-    - startup-db.sh:/startup.sh
-  cmd: sh /startup.sh
+    br-public:
+      kind: bridge
+
+    br-private:
+      kind: bridge
+
+    router:
+      kind: linux
+      image: alpine:latest
+      binds:
+        - startup-router.sh:/startup.sh
+      cmd: sh /startup.sh
+
+    web:
+      kind: linux
+      image: nginx:latest
+      binds:
+        - startup-web.sh:/startup.sh
+      cmd: sh /startup.sh
+      ports:
+        - 8080:80
+
+    db:
+      kind: linux
+      image: postgres:15
+      binds:
+        - startup-db.sh:/startup.sh
+      cmd: sh /startup.sh
+
+  links:
+
+    # Public LAN
+    - endpoints:
+        - web:eth1
+        - br-public:eth1
+
+    - endpoints:
+        - router:eth1
+        - br-public:eth2
+
+    # Private LAN
+    - endpoints:
+        - db:eth1
+        - br-private:eth1
+
+    - endpoints:
+        - router:eth2
+        - br-private:eth2
