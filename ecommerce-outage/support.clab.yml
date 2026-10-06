@@ -44,16 +44,16 @@ topology:
 
     - endpoints:
         - web:eth1
-        - br-public
+        - br-public:eth1
 
     - endpoints:
         - router:eth1
-        - br-public
+        - br-public:eth2
 
     - endpoints:
         - db:eth1
-        - br-private
+        - br-private:eth1
 
     - endpoints:
         - router:eth2
-        - br-private
+        - br-private:eth2
