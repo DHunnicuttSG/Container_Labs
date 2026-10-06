@@ -1,0 +1,22 @@
+router:
+  kind: linux
+  image: alpine:latest
+  binds:
+    - startup-router.sh:/startup.sh
+  cmd: sh /startup.sh
+
+web:
+  kind: linux
+  image: nginx:latest
+  binds:
+    - startup-web.sh:/startup.sh
+  cmd: sh /startup.sh
+  ports:
+    - 8080:80
+
+db:
+  kind: linux
+  image: postgres:15
+  binds:
+    - startup-db.sh:/startup.sh
+  cmd: sh /startup.sh
