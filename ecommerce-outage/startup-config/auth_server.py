@@ -3,14 +3,13 @@ import psycopg2
 
 app = Flask(__name__)
 
-DB_HOST="postgres"
-DB_NAME="ecommerce"
-DB_USER="appuser"
-DB_PASS="password123"
+DB_HOST = "10.20.20.50"
+DB_NAME = "ecommerce"
+DB_USER = "appuser"
+DB_PASS = "password123"
 
 @app.route("/health")
 def health():
-
     try:
         conn = psycopg2.connect(
             host=DB_HOST,
@@ -27,9 +26,8 @@ def health():
 
         return {
             "status":"failed",
-            "error":str(e)
+            "error": str(e)
         },500
-
 
 @app.route("/login")
 def login():
@@ -54,6 +52,5 @@ def login():
         return {
             "error":"authentication unavailable"
         },500
-
 
 app.run(host="0.0.0.0",port=5000)

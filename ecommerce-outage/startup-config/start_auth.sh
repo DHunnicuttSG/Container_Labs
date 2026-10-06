@@ -1,9 +1,11 @@
 #!/bin/bash
 
-echo "Waiting for PostgreSQL..."
+ip addr add 10.20.20.30/24 dev eth1
 
-sleep 15
+ip link set eth1 up
 
 pip install flask psycopg2-binary
+
+sleep 15
 
 python /app/auth_server.py
