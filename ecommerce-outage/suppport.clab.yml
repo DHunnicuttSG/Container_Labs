@@ -44,33 +44,21 @@ topology:
         POSTGRES_PASSWORD: password123
       binds:
         - startup-config/init_db.sql:/docker-entrypoint-initdb.d/init.sql
-        - startup-config/start_postgres.sh:/start.sh
-      cmd: bash /start.sh
 
-  links:
+    links:
 
-    # Frontend network
     - endpoints:
         - client:eth1
-        - frontend
-
-    - endpoints:
         - nginx:eth1
-        - frontend
 
-    # Backend network
     - endpoints:
         - nginx:eth2
-        - backend
-
-    - endpoints:
         - auth:eth1
-        - backend
 
     - endpoints:
+        - nginx:eth3
         - order:eth1
-        - backend
 
     - endpoints:
+        - auth:eth2
         - postgres:eth1
-        - backend

@@ -3,7 +3,7 @@ import psycopg2
 
 app = Flask(__name__)
 
-DB_HOST = "10.20.20.50"
+DB_HOST = "postgres"
 DB_NAME = "ecommerce"
 DB_USER = "appuser"
 DB_PASS = "password123"
