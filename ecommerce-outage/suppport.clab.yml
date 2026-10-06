@@ -4,12 +4,6 @@ topology:
 
   nodes:
 
-    frontend:
-      kind: bridge
-
-    backend:
-      kind: bridge
-
     client:
       kind: linux
       image: ghcr.io/hellt/network-multitool
@@ -48,17 +42,35 @@ topology:
         POSTGRES_DB: ecommerce
         POSTGRES_USER: appuser
         POSTGRES_PASSWORD: password123
+      binds:
+        - startup-config/init_db.sql:/docker-entrypoint-initdb.d/init.sql
+        - startup-config/start_postgres.sh:/start.sh
+      cmd: bash /start.sh
 
   links:
 
-    - endpoints: ["client:eth1","frontend:port1"]
+    # Frontend network
+    - endpoints:
+        - client:eth1
+        - frontend
 
-    - endpoints: ["nginx:eth1","frontend:port2"]
+    - endpoints:
+        - nginx:eth1
+        - frontend
 
-    - endpoints: ["nginx:eth2","backend:port1"]
+    # Backend network
+    - endpoints:
+        - nginx:eth2
+        - backend
 
-    - endpoints: ["auth:eth1","backend:port2"]
+    - endpoints:
+        - auth:eth1
+        - backend
 
-    - endpoints: ["order:eth1","backend:port3"]
+    - endpoints:
+        - order:eth1
+        - backend
 
-    - endpoints: ["postgres:eth1","backend:port4"]
+    - endpoints:
+        - postgres:eth1
+        - backend
